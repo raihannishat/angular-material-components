@@ -1,0 +1,56 @@
+<section>
+    <mat-form-field class="example-chip-list" appearance="fill">
+        <mat-label>Favorite Fruits</mat-label>
+        <mat-chip-list #chipList aria-label="Fruit selection">
+            <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+                {{fruit}}
+                <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-chip>
+            <input placeholder="New fruit..." #fruitInput [formControl]="fruitCtrl" [matAutocomplete]="auto"
+                [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                {{fruit}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <br><br>
+
+    <div class="example-button-container">
+        <button mat-raised-button (click)="formControl.disable()">Disable form control</button>
+        <button mat-raised-button (click)="formControl.enable()">Enable form control</button>
+      </div>
+      
+      <br>
+
+      <p>
+        <i>Select a focused chip by pressing <code>SPACE</code></i>
+      </p>
+      
+      <mat-form-field class="example-chip-list" appearance="fill">
+        <mat-label>Video keywords</mat-label>
+        <mat-chip-list #chipList aria-label="Video keywords" multiple [formControl]="formControl">
+          <mat-chip
+              *ngFor="let keyword of keywords"
+              [selected]="keyword"
+              [value]="keyword"
+              (removed)="removeKeyword(keyword)">
+            {{keyword}}
+          </mat-chip>
+          <input
+            placeholder="New keyword..."
+            [matChipInputFor]="chipList"
+            (matChipInputTokenEnd)="addKeywordFromInput($event)">
+        </mat-chip-list>
+      </mat-form-field>
+      
+      <p>
+        <b>The following keywords are selected:</b> {{formControl.value}}
+      </p>
+      
+</section>
